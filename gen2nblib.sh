@@ -23,7 +23,7 @@ write_xml() {
 	PKG_FILE="${NB_PATH}/${PKG_NAME}.xml"
 
 	local JARS
-	JARS=( $(find "${1}/lib" -type f -name *.jar -print ) )
+	JARS=( $(find "${1}/lib" -type f -name "*.jar" -print ) )
 
 # Write xml
 	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -32,38 +32,38 @@ write_xml() {
     <type>j2se</type>
     <display-name>${PKG_NAME}</display-name>
     <volume>
-        <type>classpath</type>" >> ${PKG_FILE}
+        <type>classpath</type>" >> "${PKG_FILE}"
 	# Add jars
-	for jar in ${JARS[@]}; do
+	for jar in "${JARS[@]}"; do
 		echo "        <resource>jar:file:${jar}!/</resource>" \
-			>> ${PKG_FILE}
+			>> "${PKG_FILE}"
 	done
 	echo "    </volume>
     <volume>
-        <type>src</type>" >> ${PKG_FILE}
+        <type>src</type>" >> "${PKG_FILE}"
 	local SRC_ZIP
 	SRC_ZIP="${1}/sources/${PKG_NAME//-[0-9 -].*/}-src.zip"
 	if [[ -f "${SRC_ZIP}" ]] ; then
 		echo "        <resource>jar:file:${SRC_ZIP}!/</resource>" \
-			>> ${PKG_FILE}
+			>> "${PKG_FILE}"
 	fi
 	echo "    </volume>
     <volume>
-        <type>javadoc</type>" >> ${PKG_FILE}
+        <type>javadoc</type>" >> "${PKG_FILE}"
 	if [[ -L "${1}/api" ]] ; then
-		echo "        <resource>file:$( readlink -f ${1}/api)!/</resource>" \
-			>> ${PKG_FILE}
+		echo "        <resource>file:$( readlink -f "${1}/api" )!/</resource>" \
+			>> "${PKG_FILE}"
 	fi
 	echo "    </volume>
     <volume>
         <type>maven-pom</type>
     </volume>
     <properties/>
-</library>"  >> ${PKG_FILE}
+</library>"  >> "${PKG_FILE}"
 }
 
 PKGS=( $( find /usr/share -type f -name package.env -exec dirname {} \; ) )
 
-for pkg in ${PKGS[@]}; do
+for pkg in "${PKGS[@]}"; do
 	write_xml "${pkg}"
 done
