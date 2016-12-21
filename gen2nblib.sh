@@ -22,6 +22,8 @@ write_xml() {
 	PKG_NAME=$( basename "${1}" )
 	PKG_FILE="${NB_PATH}/${PKG_NAME}.xml"
 
+	[[ -f "${PKG_FILE}" ]] && rm "${PKG_FILE}"
+
 	local JARS
 	JARS=( $(find "${1}/lib" -type f -name "*.jar" -print ) )
 
