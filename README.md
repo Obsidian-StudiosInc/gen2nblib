@@ -5,3 +5,15 @@
 
 Simple script to generate Netbeans library xml files for all Java 
 libraries installed on a Gentoo/Funtoo based system.
+
+## Usage
+Just execute the script to generate or re-generate. The script is simple 
+and does not remove libraries removed from the system. It will update 
+existing xml files, as it deletes and re-creates all on each run. Very 
+crude, but functional for now.
+
+There is no output during normal function.
+
+```bash
+./gen2nblib.sh
+```
