@@ -24,6 +24,8 @@ write_xml() {
 
 	[[ -f "${PKG_FILE}" ]] && rm "${PKG_FILE}"
 
+	[[ ! -d "${1}/lib" ]] && continue
+
 	local JARS
 	JARS=( $(find "${1}/lib" -type f -name "*.jar" -print ) )
 
